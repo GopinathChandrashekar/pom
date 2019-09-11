@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.usermanagement</groupId>
+  <artifactId>UserManagement</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-sanpshot</version>
+  <name>UserManagement</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <plugins>
+    <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin</artifactId>
+  <version>1.8</version>
+  <executions>
+    <execution>
+      <id>add-test-source</id>
+      <phase>process-test-sources</phase>
+      <goals>
+        <goal>add-test-source</goal>
+      </goals>
+      <configuration>
+        <sources>
+          src/it/java
+        </sources>
+      </configuration>
+     </execution>
+     <execution>
+       <id>add-test-resources</id>
+       <phase>generate-test-resources</phase>
+       <goals>
+         <goal>add-test-resource</goal>
+       </goals>
+       <configuration>
+          <resources>
+            <resource>
+              src/it/resources
+            </resource>
+          </resources>
+       </configuration>
+     </execution>
+   </executions>
+ </plugin>
+  </plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-failsafe-plugin</artifactId>
+  <version>2.13</version>
+  <configuration>
+    <encoding>${project.build.sourceEncoding}</encoding>
+  </configuration>
+  <executions>
+    <execution>
+      <id>failsafe-integration-tests</id>
+      <phase>integration-test</phase>
+      <goals>
+        <goal>integration-test</goal>
+        <goal>verify</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+ <plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.7.2.201409121644</version>
+  <executions>
+    <execution>
+      <configuration>
+        <destFile>${sonar.jacoco.reportPath}
+      </configuration>
+      <id>pre-test</id>
+      <phase>process-test-classes</phase>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+<!-- we want to execute <span class="hiddenSpellError" pre="execute " data-mce-bogus="1">jacoco</span>:prepare-agent-integration in test phase,-->
+<!--but before executing maven failsafe plugin -->
+    <execution>
+      <configuration>
+        <destFile>${sonar.jacoco.itReportPath}</destFile>
+      </configuration>
+      <id>pre-itest</id>
+      <phase>pre-integration-test</phase>
+      <goals>
+        <goal>prepare-agent-integration</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+ <plugin>
+    <groupId>com.lazerycode.jmeter</groupId>
+    <artifactId>jmeter-maven-plugin</artifactId>
+    <version>DEV-SNAPSHOT</version>
+    <packaging>maven-plugin</packaging>
+
+    <name>JMeter Maven Plugin</name>
+    <description>A plugin to allow you to run Apache JMeter tests with Maven.</description>
+<url>https://jmeter.lazerycode.com</url>
+</plugin>
+  </plugins>
+</project>
